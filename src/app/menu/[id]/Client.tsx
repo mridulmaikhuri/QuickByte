@@ -1,20 +1,29 @@
 "use client"
 
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import Image from 'next/image';
 import { Button } from "@/components/ui/button"
 import { useUser } from '@clerk/nextjs';
-import { useToast } from "@/components/ui/use-toast"
+import { useToast } from "@/components/ui/use-toast";
+import LoadingSpinner from '@/components/loading';
 
 
 function Category({ recipe }: any) {
   const { toast } = useToast();
-  
   const { user } = useUser();
+  const [loading, setLoading] = useState<boolean>(false);
+
+  if (!user) {
+    return <div className='min-h-[80vh]'>
+        <LoadingSpinner />
+    </div>
+  }
+
   const userId = user?.id;
 
   async function handleAddToCart() {
     try {
+      setLoading(true);
       const quantityElement = document.getElementById('quantity') as HTMLSelectElement;
       const qty = quantityElement?.value;
       console.log(qty);
@@ -43,11 +52,14 @@ function Category({ recipe }: any) {
       }
     } catch (error) {
       console.error(error);
+    } finally {
+      setLoading(false);
     }
   }
 
   const handleSubmit = async () => {
     try {
+      setLoading(true);
       const quantityElement = document.getElementById('quantity') as HTMLSelectElement;
       const value = quantityElement?.value;
 
@@ -87,10 +99,16 @@ function Category({ recipe }: any) {
         duration: 3000,
         className: 'bg-red-100'
       });
+    } finally {
+      setLoading(false);
     }
   }
 
-
+  if (loading) {
+    return <div className='min-h-[80vh]'>
+        <LoadingSpinner />
+    </div>
+  }
   return (
     <div>
       <h1 className='text-5xl font-bold text-center font-sans text-red-500'>
