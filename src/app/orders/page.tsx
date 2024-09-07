@@ -6,7 +6,6 @@ import Image from 'next/image';
 
 function OrdersPage() {
   const [orderList, setOrderList] = useState<any>([]);
-  const [total, setTotal] = useState(0);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -20,12 +19,8 @@ function OrdersPage() {
         const response = await fetch(`/api/Orders/${userId}`);
         const data = await response.json();
 
-        console.log(data);
-
         if (data.success) {
           setOrderList(data.orders || []);
-          console.log(data.total_price);
-          setTotal(data.total_price || 0);
         } else {
           setError(data.message);
         }
@@ -40,6 +35,15 @@ function OrdersPage() {
 
     if (userId) fetchData();
   }, [userId]);
+
+  const calculateTotalPrice = (order: any) => {
+    let totalPrice = 0;
+    order.forEach((item: any) => {
+      totalPrice += item.price * item.quantity;
+    });
+
+    return totalPrice;
+  }
 
   if (loading) return <LoadingSpinner />;
   if (error) return <div className="text-red-500">Error: {error}</div>;
@@ -63,7 +67,7 @@ function OrdersPage() {
               <p className="text-lg font-semibold">Time: {order.time.split("T")[1].split('.')[0]}</p>
             </div>
             <OrderItems items={order.items} />
-            <div className='mt-5 mb-2 ml-2 text-xl font-bold'>Total: ${total}</div>
+            <div className='mt-5 mb-2 ml-2 text-xl font-bold'>Grand Total: ${calculateTotalPrice(order.items)}</div>
           </div>
         ))}
       </div>
@@ -96,12 +100,15 @@ const OrderItems = ({ items }: { items: any[] }) => {
             />
             <p className="text-lg font-semibold text-gray-800">{item.name}</p>
           </div>
-          <div className="mt-2 ml-2 text-sm">
+          <div className="mt-2 ml-2 text-sm grid grid-cols-3">
             <p className="text-gray-700 font-semibold">
               Price: <span className="text-gray-900">${item.price}</span>
             </p>
             <p className="text-gray-700 font-semibold">
               Quantity: <span className="text-gray-900">{item.quantity}</span>
+            </p>
+            <p className='text-gray-700 font-semibold'>
+              Total: <span className="text-gray-900">${item.price * item.quantity}</span>
             </p>
           </div>
         </div>

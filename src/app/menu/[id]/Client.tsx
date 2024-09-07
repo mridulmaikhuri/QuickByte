@@ -4,49 +4,90 @@ import React from 'react'
 import Image from 'next/image';
 import { Button } from "@/components/ui/button"
 import { useUser } from '@clerk/nextjs';
-import OrderBtn from '@/components/OrderBtn';
+import { useToast } from "@/components/ui/use-toast"
+
 
 function Category({ recipe }: any) {
+  const { toast } = useToast();
+  
   const { user } = useUser();
   const userId = user?.id;
+
   async function handleAddToCart() {
-    const quantityElement = document.getElementById('quantity') as HTMLSelectElement;
-    const qty = quantityElement?.value;
-    console.log(qty);
-    const response = await fetch('/api/cart', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ userId, recipe, qty }),
-    });
-    const data = await response.json();
-    console.log(data);
-    let message = "Recipe added to cart";
-    let className = "text-green-600 border-green-600";
-    if (!data.success) {
-      message = data.message;
-      className = "text-red-600 border-red-600";
+    try {
+      const quantityElement = document.getElementById('quantity') as HTMLSelectElement;
+      const qty = quantityElement?.value;
+      console.log(qty);
+      const response = await fetch('/api/cart', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ userId, recipe, qty }),
+      });
+      const data = await response.json();
+      if (!data.success) {
+        toast({
+          title: 'Error',
+          description: data.message,
+          duration: 3000,
+          variant: 'destructive',
+        });
+      } else {
+        toast({
+          title: 'Success',
+          description: data.message,
+          duration: 3000,
+          className: 'bg-green-100'
+        });
+      }
+    } catch (error) {
+      console.error(error);
     }
+  }
 
-    const alert = document.getElementById('alert');
-    if (alert) {
-      document.getElementById('message')!.innerHTML = message;
-      const array = className.split(" ");
-      alert.classList.add(...array);
+  const handleSubmit = async () => {
+    try {
+      const quantityElement = document.getElementById('quantity') as HTMLSelectElement;
+      const value = quantityElement?.value;
 
-      alert.classList.remove('hidden');
-      requestAnimationFrame(() => {
-        alert.classList.add('show');
+      const response = await fetch('/api/Orders', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({userId, order: {
+          time: new Date(),
+          items: [{
+            name: recipe.name,
+            image: recipe.image,
+            price: Math.floor(recipe.rating * recipe.reviewCount),
+            quantity: value
+          }]
+        }})
+      });
+      const data = await response.json();
+
+      if (!data.success) {
+        toast({
+          description: 'Something went wrong. Please try again.',
+          duration: 3000,
+          className: 'bg-red-100'
+        });
+      } else {
+        toast({
+          description: 'Order placed successfully.', 
+          duration: 3000,
+          className: 'bg-green-100'
+        });
+      }
+    } catch (error) {
+      toast({
+        description: 'Internal Server Error',
+        duration: 3000,
+        className: 'bg-red-100'
       });
     }
-
-    setTimeout(() => {
-      if (alert) {
-        alert.classList.remove('show');
-        setTimeout(() => alert.classList.add('hidden'), 500); 
-      }
-    }, 3000);
   }
 
 
@@ -55,13 +96,6 @@ function Category({ recipe }: any) {
       <h1 className='text-5xl font-bold text-center font-sans text-red-500'>
         {recipe.name}
       </h1>
-      <div id='alert' className='fixed top-[9vh] right-1 border-2 p-1 pl-6 pr-2 text-xl hidden'>
-        <div id="message" className='inline-block'></div>
-        {"      "}
-        <span className='cursor-pointer hover:text-red-500' onClick={() => document.getElementById('alert')!.classList.remove('show')}>
-          &#10006;
-        </span>
-      </div>
       <div className='flex justify-center mt-3'>
         <Image src={recipe.image} alt={recipe.name} width={500} height={500} />
         <div className='text-3xl font-sans mr-5 ml-20'>
@@ -78,7 +112,7 @@ function Category({ recipe }: any) {
             </select>
           </div>
           <div className='mt-20'>
-            <OrderBtn width = "20vw" height = "6vh" />
+          <Button className={`bg-red-500 w-[20vw] h-[6vh] rounded-full hover:bg-yellow-500 text-xl`} onClick = {handleSubmit}>Order Now</Button>
           </div>
           <div className='mt-2'>
             <Button className='bg-orange-500 w-[20vw] h-[6vh] rounded-full hover:bg-yellow-500 text-xl' onClick={handleAddToCart}>Add to Cart</Button>

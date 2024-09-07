@@ -13,13 +13,9 @@ export async function GET(req: Request, { params } : { params: {userId: string}}
         if (!matchEntry.orders) {
             return NextResponse.json({success: true, orders: null, total_price: 0}, {status: 200});
         }
-        let total_price = 0;
-        for (let i = 0; i < matchEntry.orders.length; i++) {
-            total_price += Number(matchEntry.orders[i].price)*Number(matchEntry.orders[i].quantity);
-        }
 
-        console.log(total_price)
-        return NextResponse.json({success: true, orders: matchEntry?.orders, total_price: total_price}, {status: 200});
+        const sortedOrders = matchEntry.orders.sort((a: any, b: any) => b.time - a.time);
+        return NextResponse.json({success: true, orders: sortedOrders}, {status: 200});
 
     } catch (error) {
         console.error(error);
