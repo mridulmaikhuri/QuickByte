@@ -7,7 +7,7 @@ import { FaShoppingCart } from 'react-icons/fa';
 function Navbar() {
     return (
         <nav className='font-sans h-[8vh] flex justify-between items-center text-white text-xl sticky top-0 z-50 bg-opacity-100 bg-red-500'>
-            <div className='pl-5 font-extrabold'>QUICKBITE</div>
+            <div className='pl-5 font-extrabold font-serif'>QUICKBITE</div>
             <div className='flex w-1/3 justify-evenly font-bold'>
                 <SignedOut>
                     <div className='w-1/2'></div>

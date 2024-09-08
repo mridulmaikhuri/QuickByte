@@ -14,7 +14,7 @@ import Link from 'next/link'
 function Menu() {
   return (
     <div className='flex flex-col items-center min-h-93vh'>
-      <div className='text-3xl text-center font-extrabold text-red-500'>Menu</div>
+      <div className='font-serif mt-3 mb-3 text-5xl text-center font-extrabold text-red-500'>Menu</div>
       <div className='grid grid-cols-4'>
       {
           recipes && recipes.length > 0 ? (
