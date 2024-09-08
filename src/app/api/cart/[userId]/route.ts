@@ -33,12 +33,18 @@ export async function DELETE(req: Request, { params }: { params: { userId: strin
     try {
         const { userId } = params;
         const { searchParams } = new URL(req.url);
-        const itemId = searchParams.get('itemId');
+        const itemId = Number(searchParams.get('itemId'));
 
         await connectToDB();
+
         const cart = await Cart.findOne({userId});
 
-        if (cart.items.has(itemId)) {
+
+        if (itemId === -1) {
+            cart.items = new Map();
+            await cart.save();
+            return NextResponse.json({success: true, message: "Cart successfully cleared"}, {status: 200});
+        } else if (cart.items.has(itemId)) {
             cart.items.delete(itemId);
             await cart.save();  
             return NextResponse.json({success: true, message: "Item successfully deleted"}, {status: 200});

@@ -1,5 +1,5 @@
 "use client"
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useUser } from '@clerk/nextjs';
 import LoadingSpinner from '@/components/loading';
 import CartItems from '@/components/CartItems';

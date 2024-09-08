@@ -23,8 +23,6 @@ type ChildComponentProps = {
 };
 
 const CartItems: React.FC<ChildComponentProps> = ({ cart, recipes }) => {
-  if (!cart) return <div>No items in cart</div>;
-
   const { user }: any = useUser();
 
   if (!user) {
@@ -36,6 +34,7 @@ const CartItems: React.FC<ChildComponentProps> = ({ cart, recipes }) => {
   const userId = user.id;
 
   const [cartItems, setCartItems] = useState(cart);
+  const [loading, setLoading] = useState(false);
   const { toast } = useToast()
 
   const handleChange = (newValue: any, key: any) => {
@@ -92,20 +91,23 @@ const CartItems: React.FC<ChildComponentProps> = ({ cart, recipes }) => {
 
   const handleSubmit = async () => {
     try {
+      setLoading(true);
       const response = await fetch('/api/Orders', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({userId, order: {
-          time: new Date(),
-          items: Object.entries(cartItems).map(([key, value]) => ({
-            name: recipes[Number(key) - 1].name,
-            image: recipes[Number(key) - 1].image,
-            price: Math.floor(recipes[Number(key) - 1].rating * recipes[Number(key) - 1].reviewCount),
-            quantity: value
-          }))
-        }})
+        body: JSON.stringify({
+          userId, order: {
+            time: new Date(),
+            items: Object.entries(cartItems).map(([key, value]) => ({
+              name: recipes[Number(key) - 1].name,
+              image: recipes[Number(key) - 1].image,
+              price: Math.floor(recipes[Number(key) - 1].rating * recipes[Number(key) - 1].reviewCount),
+              quantity: value
+            }))
+          }
+        })
       });
       const data = await response.json();
 
@@ -115,26 +117,78 @@ const CartItems: React.FC<ChildComponentProps> = ({ cart, recipes }) => {
           duration: 3000,
           className: 'bg-red-100'
         });
-      } else {
-        toast({
-          description: 'Order placed successfully.', 
-          duration: 3000,
-          className: 'bg-green-100'
-        });
+
+        return ;
       }
+
+      const deleteResponse = await fetch(`/api/cart/${userId}?itemId=${-1} `, {
+        method: 'DELETE',
+      });
+
+      const deleteData = await deleteResponse.json();
+      if (!deleteData.success) {
+        toast({
+          description: 'Something went wrong. Please try again.',
+          duration: 3000,
+          className: 'bg-red-100'
+        });
+
+        return ;
+      }
+
+      setCartItems(new Map());
+
+      toast({
+        description: 'Order placed successfully.',
+        duration: 3000,
+        className: 'bg-green-100'
+      });
     } catch (error) {
       toast({
         description: 'Internal Server Error',
         duration: 3000,
         className: 'bg-red-100'
       });
+    } finally {
+      setLoading(false);
     }
   }
 
   let total = 0;
   Object.entries(cartItems).forEach(([key, value]) => {
     total += value * Math.floor(recipes[Number(key) - 1].rating * recipes[Number(key) - 1].reviewCount);
-  })
+  });
+
+  if (loading) {
+    return <div className='min-h-[80vh]'><LoadingSpinner /></div>
+  }
+  if (Object.keys(cartItems).length === 0) {
+    return (
+      <div className="min-h-[80vh] flex flex-col items-center justify-center text-center">
+        
+      <div className="mb-8">
+        <Image 
+          src="/empty-cart.jpg"
+          alt="Empty Cart"
+          width={200}
+          height={200}
+          className="mx-auto"
+        />
+      </div>
+
+      <h1 className="text-3xl font-bold text-gray-700 mb-4">Your Cart is Empty</h1>
+      <p className="text-lg text-gray-500 mb-8">
+        Looks like you haven't added anything to your cart yet.
+      </p>
+
+      <Button 
+        className="bg-red-500 hover:bg-yellow-500 text-white px-6 py-3 rounded-full text-xl"
+      >
+        Start Ordering
+      </Button>
+    </div>
+    )
+  }
   return (
     <div>
       <h1 className='text-red-500 font-extrabold text-center text-4xl font-sans mt-2 mb-5'>Cart Items [{Object.keys(cartItems).length || 0} Items]</h1>
@@ -160,7 +214,7 @@ const CartItems: React.FC<ChildComponentProps> = ({ cart, recipes }) => {
                 </Link>
 
               </TableCell>
-              <TableCell>{Math.floor(recipes[Number(key) - 1].rating * recipes[Number(key) - 1].reviewCount)}</TableCell>
+              <TableCell>${Math.floor(recipes[Number(key) - 1].rating * recipes[Number(key) - 1].reviewCount)}</TableCell>
               <TableCell className='text-lg'>
                 <div className='flex'>
                   <div className='border border-black p-2 cursor-pointer' onClick={() => handleChange(value - 1, key)}>-</div>
@@ -169,7 +223,7 @@ const CartItems: React.FC<ChildComponentProps> = ({ cart, recipes }) => {
                 </div>
 
               </TableCell>
-              <TableCell className=''>{value * Math.floor(recipes[Number(key) - 1].rating * recipes[Number(key) - 1].reviewCount)}</TableCell>
+              <TableCell className=''>${value * Math.floor(recipes[Number(key) - 1].rating * recipes[Number(key) - 1].reviewCount)}</TableCell>
               <TableCell className='w-[5vw]'>
                 <button onClick={() => handleDeleteItem(key)}>
                   <FontAwesomeIcon icon={faTrash} className='text-red-500 text-xl ' />
@@ -183,10 +237,10 @@ const CartItems: React.FC<ChildComponentProps> = ({ cart, recipes }) => {
         <div className=' bg-slate-100 w-fit pl-10 pr-10 pb-3 pt-3 border border-black rounded-lg'>
           <div className='w-fit p-2 text-xl'>
             <span>Grand Total: </span>
-            <span className='ml-10'>{total}</span>
+            <span className='ml-10'>${total}</span>
           </div>
           <Button className={`bg-red-500 w-[15vw] h-[6vh] rounded-full hover:bg-yellow-500 text-xl mt-3`}
-            onClick = {handleSubmit}>
+            onClick={handleSubmit}>
             Order Now
           </Button>
         </div>
