@@ -31,25 +31,30 @@ export async function GET(req: Request, { params }: { params: { userId: string }
 export async function DELETE(req: Request, { params }: { params: { userId: string } }) {
 
     try {
-        const { userId } = params;
-        const { searchParams } = new URL(req.url);
-        const itemId = Number(searchParams.get('itemId'));
-
         await connectToDB();
 
+        const { userId } = params;
+        const { searchParams } = new URL(req.url);
+        const itemId = searchParams.get('itemId');
+
         const cart = await Cart.findOne({userId});
+        if (!cart) {
+            return NextResponse.json({ success: false, message: "Cart not found" }, { status: 404 });
+        }
 
-
-        if (itemId === -1) {
-            cart.items = new Map();
+        if (itemId === '-1') {
+            console.log("inside if");
+            cart.items.clear();
             await cart.save();
             return NextResponse.json({success: true, message: "Cart successfully cleared"}, {status: 200});
         } else if (cart.items.has(itemId)) {
+            console.log("inside else if");
             cart.items.delete(itemId);
             await cart.save();  
             return NextResponse.json({success: true, message: "Item successfully deleted"}, {status: 200});
         } else {
-            return NextResponse.json({success: true, message: "Item did not exist in the cart"}, {status: 200});
+            console.log("inside else");
+            return NextResponse.json({success: false, message: "Item did not exist in the cart"}, {status: 400});
         }
 
     } catch (error: any) {

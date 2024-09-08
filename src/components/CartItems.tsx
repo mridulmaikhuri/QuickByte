@@ -121,7 +121,7 @@ const CartItems: React.FC<ChildComponentProps> = ({ cart, recipes }) => {
         return ;
       }
 
-      const deleteResponse = await fetch(`/api/cart/${userId}?itemId=${-1} `, {
+      const deleteResponse = await fetch(`/api/cart/${userId}?itemId=-1`, {
         method: 'DELETE',
       });
 
@@ -165,7 +165,7 @@ const CartItems: React.FC<ChildComponentProps> = ({ cart, recipes }) => {
   if (Object.keys(cartItems).length === 0) {
     return (
       <div className="min-h-[80vh] flex flex-col items-center justify-center text-center">
-        
+
       <div className="mb-8">
         <Image 
           src="/empty-cart.jpg"
@@ -181,11 +181,12 @@ const CartItems: React.FC<ChildComponentProps> = ({ cart, recipes }) => {
         Looks like you haven't added anything to your cart yet.
       </p>
 
-      <Button 
-        className="bg-red-500 hover:bg-yellow-500 text-white px-6 py-3 rounded-full text-xl"
+      <Link 
+        href={'/menu'}
+        className="bg-red-500 hover:bg-yellow-500 text-white px-6 py-2 rounded-full text-xl"
       >
         Start Ordering
-      </Button>
+      </Link>
     </div>
     )
   }
