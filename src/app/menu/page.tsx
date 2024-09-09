@@ -9,24 +9,43 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import Image from 'next/image'
-import Link from 'next/link'
+import Link from 'next/link';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
 function Menu() {
   return (
-    <div className='flex flex-col items-center min-h-93vh'>
-      <div className='font-serif mt-3 mb-3 text-5xl text-center font-extrabold text-red-500'>Menu</div>
+    <div className='flex flex-col items-center min-h-93vh bg-gray-100'>
+      <div className="flex justify-between items-center w-full h-[10vh] p-4">
+        <div className='w-1/3'></div>
+        <div className="font-serif text-5xl font-extrabold text-red-500 text-center mx-4 w-1/3">
+          Menu
+        </div>
+
+        <div className="flex items-center justify-end space-x-3 ml-4 w-1/3">
+          <div className="relative">
+            <FontAwesomeIcon icon={faSearch} className="text-gray-500 w-5 h-5 absolute left-3 top-1/2 transform -translate-y-1/2" />
+            <input
+              type="text"
+              placeholder="Search"
+              className="pl-10 pr-4 py-2 h-[5vh] w-[15vw] rounded-md border border-gray-300 focus:border-red-500 focus:ring-1 focus:ring-red-500 transition-all"
+            />
+          </div>
+        </div>
+      </div>
+
       <div className='grid grid-cols-4'>
-      {
+        {
           recipes && recipes.length > 0 ? (
             recipes.map((recipe: any, index: number) => (
-              <Link href = {'/menu/' + recipe.id} key={index} className='text-2xl font-bold text-red-500 font-sans ml-5 mt-3'>
-                <Card>
+              <Link href={'/menu/' + recipe.id} key={index} className='text-2xl font-bold text-red-500 font-sans ml-2 mt-3'>
+                <Card className='h-[68vh]'>
                   <CardHeader>
                     <CardTitle>{recipe.name}</CardTitle>
                     <CardDescription>{recipe.cuisine}</CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <Image src={recipe.image} alt={recipe.name} width={300} height={300} />
+                    <Image src={recipe.image} alt={recipe.name} width={400} height={300} />
                   </CardContent>
                   <CardFooter>
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

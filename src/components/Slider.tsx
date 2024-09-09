@@ -7,7 +7,7 @@ import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'
 const slides = [
   {
     id: 1,
-    image: '/Slider/food.jpeg',
+    image: '/Slider/food.jpg',
     content: "Get Best quality and tasty food from all across the world"
   },
   {
@@ -17,7 +17,7 @@ const slides = [
   },
   {
     id: 3,
-    image: '/Slider/pizza.jpeg',
+    image: '/Slider/pizza.jpg',
     content: "Limited time Offer!!! Get 20% off on your pizza order"
   }
 ]
