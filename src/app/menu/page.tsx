@@ -54,7 +54,7 @@ function Menu() {
   }
 
   return (
-    <div className='flex flex-col items-center'>
+    <div className='flex flex-col items-center pl-5 pr-5'>
       <div className="flex justify-between items-center w-full h-[10vh] p-4">
         <div className='w-1/3'></div>
         <div className="font-serif text-5xl font-extrabold text-red-500 text-center mx-4 w-1/3">
@@ -80,7 +80,7 @@ function Menu() {
           menu && menu.length > 0 ? (
             menu.map((item: any, index: number) => (
               <Link href={'/menu/' + item.id} key={index} className='text-2xl font-bold text-red-500 font-sans ml-2 mt-3'>
-                <Card className='h-[68vh]'>
+                <Card className='h-[66vh]'>
                   <CardHeader>
                     <CardTitle>{item.name}</CardTitle>
                     <CardDescription>{item.cuisine}</CardDescription>
