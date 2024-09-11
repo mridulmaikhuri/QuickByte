@@ -1,6 +1,5 @@
 "use client"
-import React, { useEffect, useState } from 'react'
-import { fetchRecipes } from '@/components/food'
+import React, { useEffect, useState } from 'react'  
 import {
   Card,
   CardContent,
