@@ -50,11 +50,11 @@ function Menu() {
     return <LoadingSpinner />
   }
   if (error) {
-    return <div className='min-h-80'>Error: {error}</div>
+    return <div>Error: {error}</div>
   }
 
   return (
-    <div className='flex flex-col items-center min-h-93vh bg-gray-100'>
+    <div className='flex flex-col items-center'>
       <div className="flex justify-between items-center w-full h-[10vh] p-4">
         <div className='w-1/3'></div>
         <div className="font-serif text-5xl font-extrabold text-red-500 text-center mx-4 w-1/3">

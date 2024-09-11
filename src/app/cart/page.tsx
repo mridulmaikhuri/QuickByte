@@ -58,18 +58,18 @@ function Cart() {
     }
 
     if (loading)
-        return <div className='min-h-[80vh]'>
+        return <div>
             <LoadingSpinner />
         </div>
 
     if (error)
-        return <div className='min-h-[80vh]'>
+        return <div>
             <p>Error: {error.message}</p>
         </div>
     
     console.log(cart.cart.items);
   return (
-    <div className='min-h-[80vh]'>
+    <div>
         <CartItems cart={cart.cart.items} recipes={recipes}/>
     </div>
   )
