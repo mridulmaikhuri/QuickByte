@@ -24,12 +24,14 @@ function Menu() {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const response = await fetch('https://dummyjson.com/recipes');
+        const response = await fetch('/api/recipes');
         const result = await response.json();
 
-        const data = result?.recipes;
-
-        setRecipes(data);
+        if (result.success) {
+          setRecipes(result.data);
+        } else {
+          setError(result.message);
+        }
       } catch (error: any) {
         setError(error.message);
       } finally {
