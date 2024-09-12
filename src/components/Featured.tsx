@@ -19,16 +19,16 @@ function Featured() {
   popularRecipes = popularRecipes.slice(0, 10);
   return (
     <div>
-      <div className='text-3xl font-bold text-red-500 font-sans ml-5 mt-3'>
+      <div className='text-4xl font-serif font-bold text-red-500 ml-5 mt-3'>
         Popular
       </div>
-      <div className='grid grid-cols-6'>
+      <div className='grid grid-cols-5'>
         {
           popularRecipes && popularRecipes.length > 0 ? (
             popularRecipes.map((recipe: any, index: number) => (
               <Link href={'/menu/' + recipe.id} key={index} className='text-2xl font-bold text-red-500 font-sans ml-5 mt-3'>
-                <Card>
-                  <CardHeader>
+                <Card className='h-[58vh]'>
+                  <CardHeader className='h-[15vh]'>
                     <CardTitle>{recipe.name}</CardTitle>
                     <CardDescription>{recipe.cuisine}</CardDescription>
                   </CardHeader>
