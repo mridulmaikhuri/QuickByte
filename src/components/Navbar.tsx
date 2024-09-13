@@ -16,33 +16,40 @@ function Navbar() {
         <nav className="font-sans h-[8vh] flex justify-between items-center sticky top-0 z-50 bg-red-500 text-white text-lg px-6 shadow-lg">
             <div className="font-extrabold text-2xl font-serif">QUICKBITE</div>
 
-            <div className="hidden md:flex w-1/3 text-xl justify-evenly font-bold items-center">
+            <div className="hidden md:flex w-1/3 text-xl justify-end gap-4 font-bold items-center">
                 <SignedOut>
-                    <div className="flex gap-4">
+                    <div className="flex gap-8 mx-2">
                         <SignInButton>
-                            <button className="px-4 py-2 bg-blue-600 rounded hover:bg-blue-700 transition-colors">Sign In</button>
+                            <button className="text-xl text-white font-sans rounded-full flex items-center transition-all duration-300 ease-in-out transform hover:scale-110">
+                                Login
+                            </button>
                         </SignInButton>
                         <SignUpButton>
-                            <button className="px-4 py-2 bg-green-600 rounded hover:bg-green-700 transition-colors">Sign Up</button>
+                            <button className=" text-white font-sans rounded-full text-xl flex items-center transition-all duration-300 ease-in-out transform hover:scale-110">
+                                Register
+                            </button>
                         </SignUpButton>
                     </div>
                 </SignedOut>
                 <SignedIn>
-                    <Link href="/" className="hover:text-gray-200 transition-colors">Home</Link>
-                    <Link href="/menu" className="hover:text-gray-200 transition-colors">Menu</Link>
-                    <Link href="/cart" className="flex items-center gap-2 hover:text-gray-200 transition-colors">
-                        <FaShoppingCart size={20} />
-                        <span>Cart</span>
-                    </Link>
-                    <Link href="/orders" className="hover:text-gray-200 transition-colors">Orders</Link>
+                    <div className='flex gap-8 mx-2'>
+                        <Link href="/" className="hover:text-gray-200 transition-all hover:scale-110">Home</Link>
+                        <Link href="/menu" className="hover:text-gray-200 transition-all hover:scale-110">Menu</Link>
+                        <Link href="/cart" className="flex items-center gap-2 hover:text-gray-200 transition-all hover:scale-110">
+                            <FaShoppingCart size={20} />
+                            <span>Cart</span>
+                        </Link>
+                        <Link href="/orders" className="hover:text-gray-200 transition-all hover:scale-110">Orders</Link>
+                    </div>
                     <UserButton />
                 </SignedIn>
             </div>
 
-            <div className="md:hidden">
+            <div className="md:hidden flex gap-4">
                 <button onClick={toggleMobileMenu} className="text-white focus:outline-none">
                     {isMobileMenuOpen ? <FiX size={24} /> : <FiMenu size={24} />}
                 </button>
+                {/* <UserButton /> */}
             </div>
 
             {isMobileMenuOpen && (
@@ -50,23 +57,31 @@ function Navbar() {
                     <SignedOut>
                         <div className="w-full flex flex-col items-center gap-4 p-4">
                             <SignInButton>
-                                <button className="px-4 py-2 bg-blue-600 rounded hover:bg-blue-700 transition-colors w-full text-center">Sign In</button>
+                                <button className="px-5 py-2 transition-all rounded duration-100 ease-in-out w-11/12 text-center hover:scale-110 hover:border-2">
+                                    Login
+                                </button>
+
                             </SignInButton>
                             <SignUpButton>
-                                <button className="px-4 py-2 bg-green-600 rounded hover:bg-green-700 transition-colors w-full text-center">Sign Up</button>
+                                <button className="px-5 py-2 hover:scale-110 hover:border-2 transition-all duration-100 ease-in-out transform w-11/12 text-center text-white">
+                                    Register
+                                </button>
                             </SignUpButton>
                         </div>
                     </SignedOut>
                     <SignedIn>
-                        <Link href="/" className="block py-4 hover:bg-red-600 w-full text-center">Home</Link>
-                        <Link href="/menu" className="block py-4 hover:bg-red-600 w-full text-center">Menu</Link>
-                        <Link href="/cart" className="py-4 flex justify-center items-center gap-2 hover:bg-red-600 w-full text-center">
-                            <FaShoppingCart size={20} />
-                            <span>Cart</span>
-                        </Link>
-                        <Link href="/orders" className="block py-4 hover:bg-red-600 w-full text-center">Orders</Link>
-                        <div className="py-4">
-                            <UserButton />
+                        <div className="w-full flex flex-col items-center gap-4 p-4">
+                            <Link href="/" className="block py-2 hover:border-2 w-11/12 text-center hover:scale-110">Home</Link>
+                            <Link href="/menu" className="block py-2 hover:border-2 w-11/12 text-center hover:scale-110">Menu</Link>
+                            <Link href="/cart" className="py-2 flex justify-center items-center gap-2 hover:border-2 w-11/12 text-center hover:scale-110">
+                                <FaShoppingCart size={20} />
+                                <span>Cart</span>
+                            </Link>
+                            <Link href="/orders" className="block py-2 hover:border-2 w-11/12 text-center hover:scale-110">Orders</Link>
+                            <div className='border-t-2 border-white w-full'></div>
+                            <div className="py-1">
+                                <UserButton />
+                            </div>
                         </div>
                     </SignedIn>
                 </div>
