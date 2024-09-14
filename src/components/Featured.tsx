@@ -20,7 +20,7 @@ function Featured() {
 
   return (
     <div>
-      <div className='text-5xl font-serif font-bold text-red-500 ml-6 mt-5'>
+      <div className='text-4xl font-serif font-bold text-red-500 ml-10 mt-5'>
         Popular
       </div>
       <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5 p-5'>
