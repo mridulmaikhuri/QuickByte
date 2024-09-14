@@ -49,7 +49,7 @@ function Navbar() {
                 <button onClick={toggleMobileMenu} className="text-white focus:outline-none">
                     {isMobileMenuOpen ? <FiX size={24} /> : <FiMenu size={24} />}
                 </button>
-                {/* <UserButton /> */}
+                <UserButton />
             </div>
 
             {isMobileMenuOpen && (
@@ -78,10 +78,10 @@ function Navbar() {
                                 <span>Cart</span>
                             </Link>
                             <Link href="/orders" className="block py-2 hover:border-2 w-11/12 text-center hover:scale-110">Orders</Link>
-                            <div className='border-t-2 border-white w-full'></div>
+                            {/* <div className='border-t-2 border-white w-full'></div>
                             <div className="py-1">
                                 <UserButton />
-                            </div>
+                            </div> */}
                         </div>
                     </SignedIn>
                 </div>
