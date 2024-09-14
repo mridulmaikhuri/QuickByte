@@ -35,12 +35,12 @@ function Slider() {
   return (
     <div className='relative flex items-center justify-center border-b-2 border-black overflow-hidden'>
       <div
-        className='absolute left-5 text-4xl text-white bg-black p-3 rounded-full cursor-pointer z-10 hover:bg-gray-800 transition duration-300'
+        className='absolute left-5 text-2xl md:text-4xl text-white bg-black p-3 rounded-full cursor-pointer z-10 hover:bg-gray-800 transition duration-300'
         onClick={() => setId((prev) => prev === 0 ? slides.length - 1 : prev - 1)}>
         <FaChevronLeft />
       </div>
 
-      <div key={slides[id].id} className='flex w-full h-[75vh] items-center justify-center'>
+      <div key={slides[id].id} className='flex w-full h-[65vh] md:h-[75vh] items-center justify-center'>
         <div className='relative w-full h-full'>
 
           <Image
@@ -49,8 +49,8 @@ function Slider() {
             fill className='w-full h-full transition-opacity duration-1000'
           />
           <div className='absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center'>
-            <div className='bg-black bg-opacity-50 p-6 rounded-lg'>
-              <p className='text-white text-4xl font-semibold text-center'>
+            <div className='bg-black bg-opacity-50 p-6 rounded-lg w-9/12 md:w-auto md:px-10'>
+              <p className='text-white text-2xl md:text-4xl font-semibold text-center'>
                 {slides[id].content}
               </p>
             </div>
@@ -59,7 +59,7 @@ function Slider() {
       </div>
 
       <div
-        className='absolute right-5 text-4xl text-white bg-black p-3 rounded-full cursor-pointer z-10 hover:bg-gray-800 transition duration-300'
+        className='absolute right-5 text-2xl md:text-4xl text-white bg-black p-3 rounded-full cursor-pointer z-10 hover:bg-gray-800 transition duration-300'
         onClick={() => setId((prev) => prev === slides.length - 1 ? 0 : prev + 1)}>
         <FaChevronRight />
       </div>
