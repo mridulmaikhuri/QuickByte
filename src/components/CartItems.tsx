@@ -49,13 +49,11 @@ const CartItems: React.FC<ChildComponentProps> = ({ cart, recipes }) => {
     setCartItems((prev) => ({ ...prev, [key]: newValue }));
   }
 
-  useEffect(() => {
-
-  }, [cartItems])
+  useEffect(() => { }, [cartItems])
 
   const handleDeleteItem = async (key: any) => {
     try {
-      const response = await fetch(`/api/cart/${userId}?itemId=${key} `, {
+      const response = await fetch(`/api/cart/${userId}?itemId=${key}`, {
         method: 'DELETE',
       });
       const data = await response.json();
@@ -118,7 +116,7 @@ const CartItems: React.FC<ChildComponentProps> = ({ cart, recipes }) => {
           className: 'bg-red-100'
         });
 
-        return ;
+        return;
       }
 
       const deleteResponse = await fetch(`/api/cart/${userId}?itemId=-1`, {
@@ -133,7 +131,7 @@ const CartItems: React.FC<ChildComponentProps> = ({ cart, recipes }) => {
           className: 'bg-red-100'
         });
 
-        return ;
+        return;
       }
 
       setCartItems(new Map());
@@ -166,34 +164,34 @@ const CartItems: React.FC<ChildComponentProps> = ({ cart, recipes }) => {
     return (
       <div className="min-h-[80vh] flex flex-col items-center justify-center text-center">
 
-      <div className="mb-8">
-        <Image 
-          src="/empty-cart.jpg"
-          alt="Empty Cart"
-          width={200}
-          height={200}
-          className="mx-auto"
-        />
+        <div className="mb-8">
+          <Image
+            src="/empty-cart.jpg"
+            alt="Empty Cart"
+            width={200}
+            height={200}
+            className="mx-auto"
+          />
+        </div>
+
+        <h1 className="text-3xl font-bold text-gray-700 mb-4">Your Cart is Empty</h1>
+        <p className="text-lg text-gray-500 mb-8">
+          Looks like you haven't added anything to your cart yet.
+        </p>
+
+        <Link
+          href={'/menu'}
+          className="bg-red-500 hover:bg-yellow-500 text-white px-6 py-2 rounded-full text-xl"
+        >
+          Start Ordering
+        </Link>
       </div>
-
-      <h1 className="text-3xl font-bold text-gray-700 mb-4">Your Cart is Empty</h1>
-      <p className="text-lg text-gray-500 mb-8">
-        Looks like you haven't added anything to your cart yet.
-      </p>
-
-      <Link 
-        href={'/menu'}
-        className="bg-red-500 hover:bg-yellow-500 text-white px-6 py-2 rounded-full text-xl"
-      >
-        Start Ordering
-      </Link>
-    </div>
     )
   }
   return (
     <div>
       <h1 className='text-red-500 font-bold text-center text-4xl font-serif mt-2 mb-5'>Cart Items [{Object.keys(cartItems).length || 0} Items]</h1>
-      <Table>
+      <Table className='overflow-x-auto'>
         <TableHeader className='border-b-2 border-black text-xl bg-slate-200'>
           <TableRow>
             <TableHead>S.No</TableHead>
@@ -219,7 +217,7 @@ const CartItems: React.FC<ChildComponentProps> = ({ cart, recipes }) => {
               <TableCell className='text-lg'>
                 <div className='flex'>
                   <div className='border border-black p-2 cursor-pointer' onClick={() => handleChange(value - 1, key)}>-</div>
-                  <input className='border-b border-t border-black w-[2vw] text-center' type="text" value={value} onChange={(e) => handleChange(Number(e.target.value), key)} />
+                  <input className='border-b border-t border-black w-[2vw] p-2 text-center' type="text" value={value} onChange={(e) => handleChange(Number(e.target.value), key)} />
                   <div className='border border-black p-2 cursor-pointer' onClick={() => handleChange(value + 1, key)}>+</div>
                 </div>
 
@@ -234,18 +232,22 @@ const CartItems: React.FC<ChildComponentProps> = ({ cart, recipes }) => {
           ))}
         </TableBody>
       </Table>
-      <div className='flex justify-end mt-10 mr-5'>
-        <div className=' bg-slate-100 w-fit pl-10 pr-10 pb-3 pt-3 border border-black rounded-lg'>
-          <div className='w-fit p-2 text-xl'>
-            <span>Grand Total: </span>
-            <span className='ml-10'>${total}</span>
+
+      <div className='w-full flex justify-end pr-2 pl-2 pt-10'>
+        <div className="w-2/3 sm:w-1/2 lg:w-1/3 xl:w-1/4 shadow-lg border border-gray-300 rounded-lg p-5">
+          <div className="flex justify-between items-center mb-4">
+            <span className="text-2xl font-semibold">Grand Total:</span>
+            <span className="text-2xl font-bold">${total}</span>
           </div>
-          <Button className={`bg-red-500 w-[15vw] h-[6vh] rounded-full hover:bg-yellow-500 text-xl mt-3`}
-            onClick={handleSubmit}>
-            Order Now
+          <Button
+            className="bg-red-500 w-full h-[6vh] rounded-full hover:bg-yellow-500 text-xl"
+            onClick={handleSubmit}
+          >
+            Place Order
           </Button>
         </div>
       </div>
+
 
     </div>
   )
