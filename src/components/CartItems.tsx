@@ -192,7 +192,7 @@ const CartItems: React.FC<ChildComponentProps> = ({ cart, recipes }) => {
   }
   return (
     <div>
-      <h1 className='text-red-500 font-extrabold text-center text-4xl font-sans mt-2 mb-5'>Cart Items [{Object.keys(cartItems).length || 0} Items]</h1>
+      <h1 className='text-red-500 font-bold text-center text-4xl font-serif mt-2 mb-5'>Cart Items [{Object.keys(cartItems).length || 0} Items]</h1>
       <Table>
         <TableHeader className='border-b-2 border-black text-xl bg-slate-200'>
           <TableRow>

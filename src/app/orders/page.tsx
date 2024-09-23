@@ -50,24 +50,24 @@ function OrdersPage() {
   if (orderList.length === 0) {
     return (
       <div className='min-h-[80vh] flex flex-col items-center mt-8 font-serif'>
-        <h1 className="text-4xl font-bold mb-4 text-gray-800">My Orders [{orderList.length} Orders]</h1>
-        <p className="text-xl text-gray-600 mt-4">No orders have been placed yet.</p>
+        <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4 text-gray-800">My Orders [{orderList.length} Orders]</h1>
+        <p className="text-lg sm:text-xl text-gray-600 mt-4">No orders have been placed yet.</p>
       </div>
     )
   }
 
   return (
     <div className='min-h-[80vh]'>
-      <h1 className="text-3xl font-bold mb-6 text-center mt-6">My Orders [{orderList.length} Orders]</h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 m-3">
+      <h1 className="text-red-500 font-serif text-2xl sm:text-3xl lg:text-4xl font-bold mb-6 text-center mt-6">My Orders [{orderList.length} Orders]</h1>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 m-3">
         {orderList.map((order: any, index: number) => (
-          <div key={index} className="bg-white shadow-lg rounded-lg p-6 border border-gray-200 h-[53vh]">
-            <div className='flex justify-between m-2'>
-              <p className="text-lg font-semibold">Date: {order.time.split("T")[0]}</p>
-              <p className="text-lg font-semibold">Time: {order.time.split("T")[1].split('.')[0]}</p>
+          <div key={index} className="bg-white shadow-lg rounded-lg p-4 sm:p-6 border border-gray-200 h-auto">
+            <div className='flex justify-between m-2 text-sm sm:text-base'>
+              <p className="font-semibold">Date: {order.time.split("T")[0]}</p>
+              <p className="font-semibold">Time: {order.time.split("T")[1].split('.')[0]}</p>
             </div>
             <OrderItems items={order.items} />
-            <div className='mt-5 mb-2 ml-2 text-xl font-bold'>Grand Total: ${calculateTotalPrice(order.items)}</div>
+            <div className='mt-5 mb-2 ml-2 text-lg sm:text-xl font-bold'>Grand Total: ${calculateTotalPrice(order.items)}</div>
           </div>
         ))}
       </div>
@@ -84,7 +84,7 @@ const OrderItems = ({ items }: { items: any[] }) => {
   }
 
   return (
-    <div className="mt-4 space-y-4 h-[35vh] overflow-y-auto scrollbar-none hover:scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 scrollbar-thumb-rounded-lg hover:scrollbar-thumb-gray-500 transition-colors duration-300">
+    <div className="mt-4 space-y-4 max-h-[35vh] overflow-y-auto scrollbar-none hover:scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 scrollbar-thumb-rounded-lg hover:scrollbar-thumb-gray-500 transition-colors duration-300">
       {items.map((item: any, index: number) => (
         <div
           key={index}
@@ -96,11 +96,11 @@ const OrderItems = ({ items }: { items: any[] }) => {
               alt={item.name}
               width={200}
               height={200}
-              className="w-[5vw] h-[5vw] object-cover rounded-full border-2 border-gray-200"
+              className="w-[12vw] sm:w-[8vw] lg:w-[5vw] h-[12vw] sm:h-[8vw] lg:h-[5vw] object-cover rounded-full border-2 border-gray-200"
             />
-            <p className="text-lg font-semibold text-gray-800">{item.name}</p>
+            <p className="text-base sm:text-lg font-semibold text-gray-800">{item.name}</p>
           </div>
-          <div className="mt-2 ml-2 text-sm grid grid-cols-3">
+          <div className="mt-2 ml-2 text-sm sm:text-base grid grid-cols-3">
             <p className="text-gray-700 font-semibold">
               Price: <span className="text-gray-900">${item.price}</span>
             </p>
