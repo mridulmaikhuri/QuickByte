@@ -76,18 +76,18 @@ function Menu() {
         </div>
       </div>
 
-      <div className='grid grid-cols-4'>
+      <div className='grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2'>
         {
           menu && menu.length > 0 ? (
             menu.map((item: any, index: number) => (
               <Link href={'/menu/' + item.id} key={index} className='text-2xl font-bold text-red-500 font-sans ml-2 mt-3'>
-                <Card className='h-[66vh]'>
-                  <CardHeader>
+                <Card className='h-auto'>
+                  <CardHeader className='h-[16vh]'>
                     <CardTitle>{item.name}</CardTitle>
                     <CardDescription>{item.cuisine}</CardDescription>
                   </CardHeader>
-                  <CardContent>
-                    <Image src={item.image} alt={item.name} width={400} height={300} />
+                  <CardContent className='flex justify-center'>
+                    <Image src={item.image} alt={item.name} width={400} height={300} className='w-full h-auto object-contain'/>
                   </CardContent>
                   <CardFooter>
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
