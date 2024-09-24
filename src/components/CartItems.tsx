@@ -24,6 +24,9 @@ type ChildComponentProps = {
 
 const CartItems: React.FC<ChildComponentProps> = ({ cart, recipes }) => {
   const { user }: any = useUser();
+  const [cartItems, setCartItems] = useState(cart);
+  const [loading, setLoading] = useState(false);
+  const { toast } = useToast();
 
   if (!user) {
     return <div className='min-h-[80vh]'>
@@ -33,9 +36,6 @@ const CartItems: React.FC<ChildComponentProps> = ({ cart, recipes }) => {
 
   const userId = user.id;
 
-  const [cartItems, setCartItems] = useState(cart);
-  const [loading, setLoading] = useState(false);
-  const { toast } = useToast()
 
   const handleChange = (newValue: any, key: any) => {
     if (newValue < 0) {

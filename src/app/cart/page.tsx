@@ -7,6 +7,10 @@ import CartItems from '@/components/CartItems';
 function Cart() {
 
     const { user }: any= useUser();
+    const [cart, setCart] = React.useState<any>(null);
+    const [loading, setLoading] = React.useState<boolean>(true);
+    const [error, setError] = React.useState<any>(null);
+    const [recipes, setRecipes] = React.useState<any>([]);
 
     if (!user) {
         return <div className='min-h-[80vh]'>
@@ -16,10 +20,6 @@ function Cart() {
 
     const userId = user.id;
 
-    const [cart, setCart] = React.useState<any>(null);
-    const [loading, setLoading] = React.useState<boolean>(true);
-    const [error, setError] = React.useState<any>(null);
-    const [recipes, setRecipes] = React.useState<any>([]);
 
     useEffect(() => {
         const fetchData = async () => {
