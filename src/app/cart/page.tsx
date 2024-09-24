@@ -1,5 +1,5 @@
 "use client"
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { useUser } from '@clerk/nextjs';
 import LoadingSpinner from '@/components/loading';
 import CartItems from '@/components/CartItems';
@@ -11,15 +11,6 @@ function Cart() {
     const [loading, setLoading] = React.useState<boolean>(true);
     const [error, setError] = React.useState<any>(null);
     const [recipes, setRecipes] = React.useState<any>([]);
-
-    if (!user) {
-        return <div className='min-h-[80vh]'>
-            <LoadingSpinner />
-        </div>
-    }
-
-    const userId = user.id;
-
 
     useEffect(() => {
         const fetchData = async () => {
@@ -34,6 +25,14 @@ function Cart() {
         };
         fetchData();
     }, []);
+
+    if (!user) {
+        return <div className='min-h-[80vh]'>
+            <LoadingSpinner />
+        </div>
+    }
+
+    const userId = user.id;
 
     const fetchCart = async () => {
         try {

@@ -28,6 +28,8 @@ const CartItems: React.FC<ChildComponentProps> = ({ cart, recipes }) => {
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
 
+  useEffect(() => { }, [cartItems]);
+
   if (!user) {
     return <div className='min-h-[80vh]'>
       <LoadingSpinner />
@@ -49,7 +51,6 @@ const CartItems: React.FC<ChildComponentProps> = ({ cart, recipes }) => {
     setCartItems((prev) => ({ ...prev, [key]: newValue }));
   }
 
-  useEffect(() => { }, [cartItems])
 
   const handleDeleteItem = async (key: any) => {
     try {
@@ -176,7 +177,7 @@ const CartItems: React.FC<ChildComponentProps> = ({ cart, recipes }) => {
 
         <h1 className="text-3xl font-bold text-gray-700 mb-4">Your Cart is Empty</h1>
         <p className="text-lg text-gray-500 mb-8">
-          Looks like you haven't added anything to your cart yet.
+          Looks like you haven&apos;t added anything to your cart yet.
         </p>
 
         <Link
